@@ -36,7 +36,11 @@ public class ServerSocketRunnable implements Runnable {
                     if (command == null)
                         return;
                     
+                    command = command.strip();
                     String[] args = command.split(" ", 2);
+                    for (int i = 0; i < args.length; i++) {
+                        args[i] = args[i].strip();
+                    }
         
                     String resultMessage;
                     switch (args[0]) {
@@ -112,7 +116,6 @@ public class ServerSocketRunnable implements Runnable {
         if (args.length == 1)
             throw new SyntaxException();
         
-        // TODO: sanitizza questo
         user = args[1];
         return "OK";
     }
