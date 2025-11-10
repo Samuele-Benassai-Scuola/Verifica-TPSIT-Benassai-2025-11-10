@@ -4,10 +4,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import it.benassai.logic.MessageBoard;
+
 public class SocketListener implements Runnable {
+    private MessageBoard messageBoard;
+
     private int port;
 
     public SocketListener(int port) {
+        messageBoard = new MessageBoard();
+        
         this.port = port;
     }
 
@@ -33,7 +39,7 @@ public class SocketListener implements Runnable {
                     Socket socket = serverSocket.accept();
                     System.out.println("connesso a " + socket.getInetAddress());
 
-                    Thread thread = new Thread(new ServerSocketRunnable(socket));
+                    Thread thread = new Thread(new ServerSocketRunnable(socket, messageBoard));
                     thread.start();
                 }
             }
