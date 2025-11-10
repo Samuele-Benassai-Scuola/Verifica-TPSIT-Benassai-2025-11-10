@@ -19,6 +19,10 @@ public class MessageBoard {
     public MessageBoard() {
     }
 
+    public Map<Integer, Message> getMessages() {
+        return messages;
+    }
+
     public int addMessage(String user, String message) {
         messages.put(nextId, new Message(user, message));
         int id = nextId;

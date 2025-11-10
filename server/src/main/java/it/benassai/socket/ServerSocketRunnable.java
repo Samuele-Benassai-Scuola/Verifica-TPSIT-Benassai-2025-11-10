@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
 
 import it.benassai.exceptions.CodableException;
 import it.benassai.exceptions.LoginRequiredException;
@@ -33,11 +31,14 @@ public class ServerSocketRunnable implements Runnable {
         socketOut.println("WELCOME");
         try {
             while (true) {
-                String command = socketIn.readLine();
-                String[] args = command.split(" ", 2);
-    
-                String resultMessage;
                 try {
+                    String command = socketIn.readLine();
+                    if (command == null)
+                        return;
+                    
+                    String[] args = command.split(" ", 2);
+        
+                    String resultMessage;
                     switch (args[0]) {
                         case "QUIT":
                             socketOut.println("BYE");
@@ -98,6 +99,9 @@ public class ServerSocketRunnable implements Runnable {
     private String handleList(String[] args) throws CodableException {
         if (user == null)
             throw new LoginRequiredException();
+        
+        if (messageBoard.getMessages().isEmpty())
+            return "BOARD:\nEND";
         
         return "BOARD:\n" + messageBoard.toString() + "\nEND";
     }
